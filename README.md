@@ -6,6 +6,17 @@
 
 ## 🔥 Welcome to Lilith Linux with Lilim AI Assistant
 
+
+
+
+<img width="1056" height="992" alt="enhance-this-logo-with-crimson-red-and-dark-orange" src="https://github.com/user-attachments/assets/8a0035bd-8c95-4508-b896-512c6d25d963" />
+
+
+
+
+
+
+
 **Lilith Linux** is a revolutionary Linux distribution builder that transforms Deepin Linux 25.01 into a completely custom, intelligent operating system powered by **Lilim** - your demonic AI companion!
 
 ### 🚀 Revolutionary Features
@@ -18,7 +29,7 @@
 - **⚡ Hardware-Optimized AI**: llama.cpp-powered assistant with hardware-specific quantization
 - **🔥 Infernal Theme**: Hell-inspired visual design with command-and-control interface
 
-### 🎯 > *"Evil meets beauty; Power meets elegance"*
+### 🜏 𖤐 𐕣 Evil meets beauty; Power meets elegance 𓅓࣪ ִֶָ☾.
 
 Lilith Linux bridges cutting-edge AI technology with Linux customization, featuring Lilim - a demonic AI companion that actively helps you study, code, troubleshoot systems, write content, and conduct research through integrated artificial intelligence.
 
@@ -521,7 +532,7 @@ lilith-admin list-shortcuts
 
 - [**Complete Installation Guide**](LILITH_SOURCE_INTEGRATION_README.md) - Deepin source integration details
 - [**AI Integration Documentation**](LILITH_AI_INTEGRATION_README.md) - Complete AI system reference
-- [**Troubleshooting Guide**](docs/troubleshooting.md) - Common issues and solutions
+- [**Troubleshooting Guide**](docs/COMING_SOON!) - Common issues and solutions
 ---
 
 ## 🤝 Contributing
