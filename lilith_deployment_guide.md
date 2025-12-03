@@ -6,7 +6,7 @@
 ## 📋 Quick Start (5 Minutes)
 
 ### Step 1: Access the Application
-1. Open this app in Claude (you're already here!)
+1. Open this app in chosen framework (you're already here!)
 2. The interface will load with 6 configuration steps
 3. Follow each step sequentially from top to bottom
 
