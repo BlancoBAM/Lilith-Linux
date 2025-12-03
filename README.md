@@ -189,22 +189,7 @@ generate "ideas for a Linux tutorial"
 # → Creative content ideas and outlines
 ```
 
-#### 4. Code Assistant
-```bash
-analyze "this Python function"
-# → Security, performance, and style analysis
-
-debug "find the bug in this bash script"
-# → Detailed debugging with line-by-line explanation
-
-review "C++ code quality"
-# → Best practices and optimization suggestions
-
-optimize "this database query"
-# → Performance improvements and indexing
-```
-
-#### 5. Technical Support Specialist
+#### 4. Technical Support Specialist
 ```bash
 diagnose "wifi not connecting"
 # → Hardware/software troubleshooting guide
@@ -217,6 +202,21 @@ guide "set up a web development environment"
 
 help "troubleshoot hardware issues"
 # → Component diagnosis and repair guidance
+```
+
+#### 5. Research & Learning Assistant
+```bash
+research "quantum computing fundamentals"
+# → Comprehensive research summaries and explanations
+
+learn "about container networking"
+# → Systematic learning guides and tutorials
+
+summarize "this technical paper"
+# → Clear abstracts and key concept extraction
+
+find "resources for learning machine learning"
+# → Curated learning paths and recommendations
 ```
 
 ---

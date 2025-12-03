@@ -35,7 +35,11 @@ const LilithApp = () => {
       { original: 'deepin', replacement: 'lilith' },
       { original: 'dde-', replacement: 'lilith-' },
       { original: 'DDE', replacement: 'LILITH' }
-    ]
+    ],
+    customRepoEnabledForApps: false,
+    customRepos: [''],
+    appsToConvert: [''],
+    customAppPackages: [{ name: '', repo: '', description: '' }]
   });
 
   const steps = [
@@ -500,6 +504,98 @@ echo -e "\${YELLOW}ISO Location:\${NC} $BASE_PATH/output/${config.osName}-${conf
               >
                 + Add Replacement Rule
               </button>
+            </div>
+
+            <h3 className="text-lg font-bold text-gray-800 mb-4 mt-8">Custom Applications & Repositories</h3>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 mb-4">
+                <input
+                  type="checkbox"
+                  checked={config.customRepoEnabledForApps}
+                  onChange={(e) => setConfig({...config, customRepoEnabledForApps: e.target.checked})}
+                  className="w-5 h-5 accent-red-700"
+                />
+                <label className="font-bold text-gray-800">Enable Custom Repository Creation & Auto-Population</label>
+              </div>
+
+              <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                <p className="text-sm text-purple-700 mb-3">Specify additional Deepin apps or repos to convert to Lilith equivalents automatically.</p>
+
+                <h4 className="font-bold text-purple-800 mb-2">Additional Repositories to Clone & Convert</h4>
+                {config.customRepos.map((repo, index) => (
+                  <div key={index} className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      placeholder="https://github.com/deepin-community/deepin-app.git"
+                      value={repo}
+                      onChange={(e) => {
+                        const newRepos = [...config.customRepos];
+                        newRepos[index] = e.target.value;
+                        setConfig({...config, customRepos: newRepos});
+                      }}
+                      className="flex-1 border-2 border-purple-300 rounded px-3 py-1 font-mono text-sm focus:border-purple-700 focus:outline-none"
+                    />
+                    <button
+                      onClick={() => {
+                        const newRepos = config.customRepos.filter((_, i) => i !== index);
+                        setConfig({...config, customRepos: newRepos});
+                      }}
+                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  onClick={() => {
+                    const newRepos = [...config.customRepos, ''];
+                    setConfig({...config, customRepos: newRepos});
+                  }}
+                  className="w-full bg-purple-500 text-white py-2 rounded hover:bg-purple-600 font-bold text-sm mb-4"
+                >
+                  + Add Repository URL
+                </button>
+
+                <h4 className="font-bold text-purple-800 mb-2">Individual Apps to Convert</h4>
+                {config.appsToConvert.map((app, index) => (
+                  <div key={index} className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      placeholder="deepin-screenshot, deepin-terminal, etc."
+                      value={app}
+                      onChange={(e) => {
+                        const newApps = [...config.appsToConvert];
+                        newApps[index] = e.target.value;
+                        setConfig({...config, appsToConvert: newApps});
+                      }}
+                      className="flex-1 border-2 border-purple-300 rounded px-3 py-1 font-mono text-sm focus:border-purple-700 focus:outline-none"
+                    />
+                    <button
+                      onClick={() => {
+                        const newApps = config.appsToConvert.filter((_, i) => i !== index);
+                        setConfig({...config, appsToConvert: newApps});
+                      }}
+                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                <button
+                  onClick={() => {
+                    const newApps = [...config.appsToConvert, ''];
+                    setConfig({...config, appsToConvert: newApps});
+                  }}
+                  className="w-full bg-purple-500 text-white py-2 rounded hover:bg-purple-600 font-bold text-sm mb-4"
+                >
+                  + Add Deepin App Name
+                </button>
+
+                <div className="text-xs text-purple-600">
+                  <strong>Automatic Process:</strong> Specified repositories will be cloned, converted to Lilith branding, packaged, and added to auto-generated repositories with proper dependencies.
+                </div>
+              </div>
             </div>
 
             <div className="bg-gray-100 border-l-4 border-gray-400 p-4 mt-6">
