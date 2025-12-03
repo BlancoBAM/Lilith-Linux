@@ -19,7 +19,23 @@ const LilithApp = () => {
     cursorTheme: 'Bibata-Modern-Ice',
     windowBorderRadius: '8',
     customRepoEnabled: false,
-    customRepoDomain: 'repo.lilithlinux.org'
+    customRepoDomain: 'repo.lilithlinux.org',
+    appRebranding: {
+      'com.deepin.settings': 'org.lilith.settings',
+      'com.deepin.appstore': 'org.lilith.appstore',
+      'com.deepin.terminal': 'org.lilith.terminal',
+      'com.deepin.file-manager': 'org.lilith.filemanager',
+      'com.deepin.image-viewer': 'org.lilith.imageviewer',
+      'com.deepin.music': 'org.lilith.music',
+      'com.deepin.movie': 'org.lilith.movie',
+      'com.deepin.screen-recorder': 'org.lilith.screenrecorder'
+    },
+    brandingReplacements: [
+      { original: 'Deepin', replacement: 'Lilith' },
+      { original: 'deepin', replacement: 'lilith' },
+      { original: 'dde-', replacement: 'lilith-' },
+      { original: 'DDE', replacement: 'LILITH' }
+    ]
   });
 
   const steps = [
@@ -37,6 +53,11 @@ const LilithApp = () => {
       title: 'Packages',
       icon: '📦',
       content: 'packages'
+    },
+    {
+      title: 'Deepin App Rebranding',
+      icon: '🔄',
+      content: 'rebranding'
     },
     {
       title: 'Advanced Theming',
@@ -167,6 +188,15 @@ gtk-font-name=${config.fontFamily} 11
 gtk-cursor-theme-name=${config.cursorTheme}
 gtk-application-prefer-dark-theme=1
 GTK_SETTINGS
+
+echo "Performing Deepin application rebranding..."
+${Object.entries(config.appRebranding).map(([original, replacement]) =>
+  `sed -i 's/${original}/${replacement}/g' /usr/share/applications/*.desktop 2>/dev/null || true`
+).join('\n')}
+
+${config.brandingReplacements.map(replacement =>
+  `find /usr/share/applications /usr/share/deepin /opt -name "*.desktop" -o -name "*.json" -o -name "*.xml" -o -name "*.metainfo" 2>/dev/null | xargs sed -i 's/${replacement.original}/${replacement.replacement}/g' 2>/dev/null || true`
+).join('\n')}
 
 apt-get clean
 rm -rf /var/lib/apt/lists/*
@@ -391,6 +421,96 @@ echo -e "\${YELLOW}ISO Location:\${NC} $BASE_PATH/output/${config.osName}-${conf
               <button style={{backgroundColor: config.accentColor, color: config.textColor}} className="px-4 py-2 rounded font-bold hover:opacity-90">
                 Sample Button
               </button>
+            </div>
+          </div>
+        );
+
+      case 'rebranding':
+        return (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-gray-800">Deepin Application Rebranding</h2>
+
+            <div className="bg-orange-50 border-l-4 border-orange-400 p-4 mb-6">
+              <p className="text-sm text-orange-700">Rename Deepin applications with Lilith equivalents, following the same pattern as the source-level components (e.g., dde-* → lilith-*).</p>
+            </div>
+
+            <h3 className="text-lg font-bold text-gray-800 mb-4">Application Package IDs</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              {Object.entries(config.appRebranding).map(([original, replacement]) => (
+                <div key={original} className="border-2 border-gray-300 rounded p-3">
+                  <label className="block text-sm font-bold text-red-700 mb-2">{original}</label>
+                  <input
+                    type="text"
+                    value={replacement}
+                    onChange={(e) => {
+                      const newRebranding = {...config.appRebranding};
+                      newRebranding[original] = e.target.value;
+                      setConfig({...config, appRebranding: newRebranding});
+                    }}
+                    className="w-full border-2 border-gray-300 rounded px-3 py-1 font-mono text-sm focus:border-red-700 focus:outline-none"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <h3 className="text-lg font-bold text-gray-800 mb-4">Text Replacements</h3>
+            <div className="space-y-3">
+              {config.brandingReplacements.map((replacement, index) => (
+                <div key={index} className="flex gap-3 items-center">
+                  <input
+                    type="text"
+                    placeholder="Original text"
+                    value={replacement.original}
+                    onChange={(e) => {
+                      const newReplacements = [...config.brandingReplacements];
+                      newReplacements[index].original = e.target.value;
+                      setConfig({...config, brandingReplacements: newReplacements});
+                    }}
+                    className="flex-1 border-2 border-gray-300 rounded px-3 py-1 font-mono text-sm focus:border-red-700 focus:outline-none"
+                  />
+                  <span className="text-gray-500">→</span>
+                  <input
+                    type="text"
+                    placeholder="Replacement text"
+                    value={replacement.replacement}
+                    onChange={(e) => {
+                      const newReplacements = [...config.brandingReplacements];
+                      newReplacements[index].replacement = e.target.value;
+                      setConfig({...config, brandingReplacements: newReplacements});
+                    }}
+                    className="flex-1 border-2 border-gray-300 rounded px-3 py-1 font-mono text-sm focus:border-red-700 focus:outline-none"
+                  />
+                  <button
+                    onClick={() => {
+                      const newReplacements = config.brandingReplacements.filter((_, i) => i !== index);
+                      setConfig({...config, brandingReplacements: newReplacements});
+                    }}
+                    className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={() => {
+                  const newReplacements = [...config.brandingReplacements, { original: '', replacement: '' }];
+                  setConfig({...config, brandingReplacements: newReplacements});
+                }}
+                className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 font-bold"
+              >
+                + Add Replacement Rule
+              </button>
+            </div>
+
+            <div className="bg-gray-100 border-l-4 border-gray-400 p-4 mt-6">
+              <p className="font-bold text-gray-800 mb-2">What Gets Rebranded:</p>
+              <ul className="text-sm text-gray-700 space-y-1">
+                <li>• Desktop application icons and names</li>
+                <li>• Package installation references</li>
+                <li>• Configuration files and metadata</li>
+                <li>• Menu entries and system references</li>
+                <li>• Internal component naming (following same pattern as source-level rebranding)</li>
+              </ul>
             </div>
           </div>
         );

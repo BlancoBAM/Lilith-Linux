@@ -52,14 +52,15 @@ lilith "Hello Lilith! How can you help me?"
 
 ```
 🤖 Lilith Linux Ecosystem
-├── 🎨 GUI Builder (7 Steps)
+├── 🎨 GUI Builder (8 Steps)
 │   ├── 1. Welcome & Requirements
 │   ├── 2. Basic System Configuration
 │   ├── 3. Package Management
-│   ├── 4. Advanced Visual Theming
-│   ├── 5. Repository Setup
-│   ├── 6. Deepin Source Integration ⭐
-│   └── 7. AI Integration Setup ⭐
+│   ├── 4. Deepin App Rebranding
+│   ├── 5. Advanced Visual Theming
+│   ├── 6. Repository Setup
+│   ├── 7. Deepin Source Integration ⭐
+│   └── 8. AI Integration Setup ⭐
 │
 ├── 🔧 Build System
 │   ├── Source-level Deepin modifications
@@ -146,52 +147,76 @@ Examples:
 
 ### Specialized Knowledge Areas
 
-#### 1. System Administration Expert
+#### 1. Academic & Homework Helper
 ```bash
-lilith "Why is my CPU usage high?"
-# → Detailed system analysis and solutions
+lilith "Help me study for my math exam?"
+# → Complete study guides and practice exercises
 
-ask "How do I configure network bonding?"
-# → Step-by-step network configuration guide
+lilith "Explain this physics concept"
+# → Clear explanations with examples and diagrams
 
-diagnose "Check disk space issues"
-# → Complete filesystem analysis and cleanup
+lilith "Practice Spanish vocabulary"
+# → Interactive language learning exercises
+
+lilith "Write my research paper outline"
+# → Academic writing assistance and structure
 ```
 
-#### 2. Code Assistant
+#### 2. System Administration Expert
 ```bash
-analyze "this bash script"
-# → Security, performance, and style analysis
+ask "How do I mount a network drive?"
+# → Step-by-step network configuration guide
 
-debug "find the bug in this function"
-# → Detailed debugging with line-by-line explanation
+diagnose "why is CPU usage high?"
+# → Detailed system analysis and solutions
 
-review "python code quality"
-# → Best practices and optimization suggestions
+fix "Check disk space issues"
+# → Complete filesystem analysis and cleanup
 ```
 
 #### 3. Creative Writing Coach
 ```bash
-write "technical documentation for API"
+write "technical documentation for my API"
 # → Professional documentation generation
 
-edit "grammar and style check"
+edit "grammar and style check in my article"
 # → Advanced editing and proofreading
 
-generate "ideas for linux tutorial"
+proofread "this research paper"
+# → Style, clarity, and grammar corrections
+
+generate "ideas for a Linux tutorial"
 # → Creative content ideas and outlines
 ```
 
-#### 4. Technical Support Specialist
+#### 4. Code Assistant
+```bash
+analyze "this Python function"
+# → Security, performance, and style analysis
+
+debug "find the bug in this bash script"
+# → Detailed debugging with line-by-line explanation
+
+review "C++ code quality"
+# → Best practices and optimization suggestions
+
+optimize "this database query"
+# → Performance improvements and indexing
+```
+
+#### 5. Technical Support Specialist
 ```bash
 diagnose "wifi not connecting"
 # → Hardware/software troubleshooting guide
 
-fix "package conflicts"
-# → Dependency resolution strategies
+fix "package dependency conflicts"
+# → Resolution strategies and dependency management
 
-guide "setting up development environment"
-# → Complete setup instructions
+guide "set up a web development environment"
+# → Complete setup instructions for developers
+
+help "troubleshoot hardware issues"
+# → Component diagnosis and repair guidance
 ```
 
 ---
