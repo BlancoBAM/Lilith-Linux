@@ -18,8 +18,7 @@
 - **⚡ Hardware-Optimized AI**: llama.cpp-powered assistant with hardware-specific quantization
 - **🔥 Infernal Theme**: Hell-inspired visual design with command-and-control interface
 
-### 🎯 Mission
-> *"Where Demonic Intelligence Meets Linux Freedom"*
+### 🎯 > *"Evil meets beauty; Power meets elegance"*
 
 Lilith Linux bridges cutting-edge AI technology with Linux customization, featuring Lilim - a demonic AI companion that actively helps you study, code, troubleshoot systems, write content, and conduct research through integrated artificial intelligence.
 
@@ -505,40 +504,16 @@ lilith-admin list-shortcuts
 ✅ Workflow automation with AI
 ```
 
----
 
-## 🌟 Success Stories
-
-*"Lilith Linux transformed my development workflow. The AI coding assistant catches bugs before I even finish writing code, and the source-level integration makes the entire system feel custom-built for my needs."*
-— Software Developer
-
-*"As a system administrator, having an AI that understands Linux internals at the source level has been game-changing. Troubleshooting that used to take hours now takes minutes."*
-— SysAdmin Professional
-
-*"The specialized knowledge areas are incredible. Whether I'm writing documentation or debugging scripts, Lilith's AI has the expertise I need right when I need it."*
-— Technical Writer
-
----
 
 ## 🗺️ Development Roadmap
 
-### Phase 2 (Q1 2025): Advanced AI
+### Advanced AI
 - [ ] CUDA/OpenCL GPU acceleration
 - [ ] Multi-modal AI (text + images)
 - [ ] Voice interaction capabilities
 - [ ] Federated learning support
 
-### Phase 3 (Q2 2025): Enterprise Features
-- [ ] Multi-user collaboration
-- [ ] Audit logging and compliance
-- [ ] Enterprise security integrations
-- [ ] Custom model deployment tools
-
-### Phase 4 (Q3 2025): AI Ecosystem
-- [ ] Community model marketplace
-- [ ] Plugin architecture for AI tools
-- [ ] Integration with popular IDEs
-- [ ] Cross-platform compatibility
 
 ---
 
@@ -547,9 +522,6 @@ lilith-admin list-shortcuts
 - [**Complete Installation Guide**](LILITH_SOURCE_INTEGRATION_README.md) - Deepin source integration details
 - [**AI Integration Documentation**](LILITH_AI_INTEGRATION_README.md) - Complete AI system reference
 - [**Troubleshooting Guide**](docs/troubleshooting.md) - Common issues and solutions
-- [**API Reference**](docs/api.md) - Developer integration options
-- [**Contributing Guide**](docs/contributing.md) - Join the development
-
 ---
 
 ## 🤝 Contributing
@@ -575,9 +547,8 @@ npm run dev  # Start GUI development
 
 ## 📞 Support & Community
 
-- **📧 Email**: blanco@blanco.email (for direct support)
-- **💬 Discord**: [Lilith Linux Community](https://discord.gg/lilith-linux)
-- **📚 Docs**: [Complete Documentation](https://docs.lilith-linux.org)
+- **📧 Email**: blancobam@proton.me (for direct support)
+- **📚 Docs**: [Complete Documentation](coming very soon)
 - **🐛 Issues**: [GitHub Issues](https://github.com/BlancoBAM/Lilith-Linux/issues)
 
 ---
@@ -590,10 +561,9 @@ npm run dev  # Start GUI development
 **GUI Framework**: React + TypeScript + TailwindCSS
 
 ### Special Thanks
+- Deepin (base system)
 - Meta (Llama models)
-- Microsoft (Phi-2 model)
 - Gheorghe Rosca (llama.cpp)
-- Linux Deepin team (base system)
 - Open source community
 
 ---
@@ -608,8 +578,8 @@ Lilith Linux represents more than just another Linux distribution—it's an inte
 
 ---
 
-*Where Power Meets Intelligence. Where Linux Freedom Meets AI Assistance.* 🔥🧠
+*Intelligent torture* 🔥🧠
 
 ---
 
-*"Lilith Linux: Because your operating system should work as hard as you do."*
+𓅓"Lilith Linux: Evil meets beauty, power meets elegance"࣪ ִֶָ☾.
