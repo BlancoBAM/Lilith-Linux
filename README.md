@@ -4,21 +4,24 @@
 [![AI-Powered](https://img.shields.io/badge/AI--Powered-🧠-purple.svg)](https://github.com/BlancoBAM/Lilith-Linux)
 [![Source-Level](https://img.shields.io/badge/Source--Level-🔬-blue.svg)](https://github.com/BlancoBAM/Lilith-Linux)
 
-## 🔥 What is Lilith Linux?
+## 🔥 Welcome to Lilith Linux with Lilim AI Assistant
 
-**Lilith Linux** is a revolutionary Linux distribution builder that transforms Deepin Linux 25.01 into a completely custom, intelligent operating system with:
+**Lilith Linux** is a revolutionary Linux distribution builder that transforms Deepin Linux 25.01 into a completely custom, intelligent operating system powered by **Lilim** - your demonic AI companion!
 
 ### 🚀 Revolutionary Features
-- **Deep Source Code Integration**: Modifies actual Deepin desktop environment binaries at source level
-- **Hardware-Optimized Local AI**: llama.cpp-powered intelligent assistant with quantization
-- **Specialized Knowledge Areas**: Domain-specific AI expertise (sysadmin, coding, writing, etc.)
-- **Seamless GUI Builder**: 7-step interactive web interface for complete customization
-- **Desktop Intelligence**: AI hotkeys and context menus integrated into the desktop environment
+- **🪄 Lilim AI Assistant**: Dedicated demonic AI with 5 specialized knowledge areas
+- **📚 Academic & Homework Helper**: College student-focused AI for studying and learning
+- **🛡️ 8 API Provider Support**: Groq, Anthropic, OpenAI, Mistral, Gemini, Together, Fireworks, OpenRouter
+- **🎨 Official Logo Integration**: Crimson red and dark orange branding throughout
+- **📦 Single-File GUI Installer**: Point-and-click setup for Ubuntu/Windows/macOS
+- **🏗️ Deep Source Code Integration**: Modifies actual Deepin desktop environment binaries
+- **⚡ Hardware-Optimized AI**: llama.cpp-powered assistant with hardware-specific quantization
+- **🔥 Infernal Theme**: Hell-inspired visual design with command-and-control interface
 
 ### 🎯 Mission
-> *"Where Local Intelligence Meets Linux Freedom"*
+> *"Where Demonic Intelligence Meets Linux Freedom"*
 
-Lilith Linux bridges advanced AI technology with Linux customization, creating an operating system that doesn't just run applications—it actively helps you work, learn, and create through integrated artificial intelligence.
+Lilith Linux bridges cutting-edge AI technology with Linux customization, featuring Lilim - a demonic AI companion that actively helps you study, code, troubleshoot systems, write content, and conduct research through integrated artificial intelligence.
 
 ---
 
