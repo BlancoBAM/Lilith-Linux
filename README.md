@@ -43,7 +43,7 @@ git clone https://github.com/BlancoBAM/Lilith-Linux.git
 cd Lilith-Linux
 
 # 2. Run complete setup (installs everything)
-sudo bash lilith-complete-setup.sh
+sudo bash scripts/lilith-complete-setup.sh
 
 # 3. Launch the builder
 lilith-launch web
@@ -303,7 +303,7 @@ GPU: Optional (future CUDA support)
 
 #### 1. One-Command Complete Setup
 ```bash
-sudo bash lilith-complete-setup.sh
+sudo bash scripts/lilith-complete-setup.sh
 ```
 *Includes all dependencies, source code, AI models, and GUI integration*
 
@@ -550,7 +550,7 @@ We welcome contributions! Lilith Linux represents a new paradigm where AI and Li
 ```bash
 git clone https://github.com/BlancoBAM/Lilith-Linux.git
 cd Lilith-Linux
-sudo bash lilith-complete-setup.sh
+sudo bash scripts/lilith-complete-setup.sh
 npm run dev  # Start GUI development
 ```
 

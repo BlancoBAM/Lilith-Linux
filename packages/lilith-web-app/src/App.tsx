@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Download, ChevronRight, Menu, X } from 'lucide-react';
+import AIIntegration from './components/AIIntegration';
 
 const LilithApp = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -47,6 +48,11 @@ const LilithApp = () => {
       title: 'Repository Setup',
       icon: '💾',
       content: 'repository'
+    },
+    {
+      title: 'AI Integration Setup',
+      icon: '🧠',
+      content: 'ai-integration'
     },
     {
       title: 'Review & Download',
@@ -464,6 +470,9 @@ echo -e "\${YELLOW}ISO Location:\${NC} $BASE_PATH/output/${config.osName}-${conf
             </div>
           </div>
         );
+
+      case 'ai-integration':
+        return <AIIntegration config={config} setConfig={setConfig} currentStep={currentStep} setCurrentStep={setCurrentStep} steps={steps} />;
 
       default:
         return null;

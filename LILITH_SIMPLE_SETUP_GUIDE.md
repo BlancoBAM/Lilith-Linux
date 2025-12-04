@@ -47,7 +47,16 @@
 ## 📥 **Download Lilith Linux (5 Minutes)**
 
 ### 🎯 **Official Source - Complete Package**
-Download from: **`https://github.com/BlancoBAM/Lilith-Linux/releases/download/v1.0.0/lilith-linux-installer.run`**
+Clone the repository and run the setup script:
+
+```bash
+# Clone the repository
+git clone https://github.com/BlancoBAM/Lilith-Linux.git
+cd Lilith-Linux
+
+# Run the complete setup (includes all components)
+sudo bash scripts/lilith-complete-setup.sh
+```
 
 ### 📦 **What This Single File Contains:**
 - ✅ Complete Linux source code (all Deepin modifications)
@@ -69,49 +78,22 @@ Download from: **`https://github.com/BlancoBAM/Lilith-Linux/releases/download/v1
 
 ## 🚀 **One-Click Installation (10 Minutes)**
 
-### 📋 **Install the GUI Installer**
+### 📋 **Run the Complete Setup**
 
-#### **For Ubuntu Linux Users:**
+#### **For All Linux Users:**
 ```bash
-# Method 1: Direct Download
-wget https://github.com/BlancoBAM/Lilith-Linux/releases/download/v1.0.0/lilith-linux-installer.run
-chmod +x lilith-linux-installer.run
-
-# Method 2: GUI Download
-# 1. Open Firefox/Chrome
-# 2. Visit: github.com/BlancoBAM/Lilith-Linux/releases
-# 3. Find "lilith-linux-installer.run"
-# 4. Click "Download"
-# 5. Double-click downloaded file to run
+# The setup script will install everything automatically
+cd Lilith-Linux
+sudo bash scripts/lilith-complete-setup.sh
 ```
 
-#### **For Windows Users:**
-```batch
-# Method 1: PowerShell (Admin)
-Invoke-WebRequest -Uri "https://github.com/BlancoBAM/Lilith-Linux/releases/download/v1.0.0/lilith-linux-installer.exe" -OutFile "lilith-installer.exe"
-# Then double-click lilith-installer.exe
-
-# Method 2: Browser Download
-# 1. Open Google Chrome/Microsoft Edge
-# 2. Visit: github.com/BlancoBAM/Lilith-Linux/releases
-# 3. Find "lilith-linux-installer.exe"
-# 4. Click "Download"
-# 5. Run the downloaded file (may need to allow admin)
-```
-
-#### **For macOS Users:**
-```bash
-# Method 1: Terminal
-curl -L -o lilith-installer.dmg "https://github.com/BlancoBAM/Lilith-Linux/releases/download/v1.0.0/lilith-linux-installer.dmg"
-# Then double-click lilith-installer.dmg
-
-# Method 2: Safari Download
-# 1. Open Safari
-# 2. Visit: github.com/BlancoBAM/Lilith-Linux/releases
-# 2. Find "lilith-linux-installer.dmg"
-# 3. Click "Download"
-# 4. Double-click downloaded file
-```
+#### **What the Setup Does:**
+- ✅ Installs all required dependencies
+- ✅ Sets up directory structure
+- ✅ Copies all scripts and components
+- ✅ Integrates AI with GUI components
+- ✅ Creates desktop shortcuts and launchers
+- ✅ Shows completion instructions
 
 ### 🎮 **The Installer Does Everything**
 
