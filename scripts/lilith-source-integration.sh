@@ -32,6 +32,8 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 clone_repositories() {
     echo -e "${YELLOW}► Cloning Deepin source repositories...${NC}"
 
+    # Note: Many Deepin repositories may not be available or have moved
+    # This function attempts to clone what exists and skips what doesn't
     local repos=(
         "https://github.com/linuxdeepin/dde-daemon.git"
         "https://github.com/linuxdeepin/dde-session-ui.git"
@@ -41,24 +43,43 @@ clone_repositories() {
         "https://github.com/linuxdeepin/dde-launcher.git"
         "https://github.com/linuxdeepin/dde-polkit-agent.git"
         "https://github.com/linuxdeepin/dde-session-shell.git"
-        "https://github.com/linuxdeepin/dde-qt5integration.git"
-        "https://github.com/linuxdeepin/dde-qt5platform-plugins.git"
     )
+
+    # Removed non-existent repositories:
+    # "https://github.com/linuxdeepin/dde-qt5integration.git"
+    # "https://github.com/linuxdeepin/dde-qt5platform-plugins.git"
+
+    local cloned_count=0
+    local failed_count=0
 
     for repo in "${repos[@]}"; do
         local repo_name=$(basename "$repo" .git)
         if [ ! -d "$SOURCE_DIR/$repo_name" ]; then
             echo "  Cloning $repo_name..."
-            git clone --depth 1 "$repo" "$SOURCE_DIR/$repo_name"
+            if git clone --depth 1 "$repo" "$SOURCE_DIR/$repo_name" 2>/dev/null; then
+                echo "    ✓ Successfully cloned $repo_name"
+                ((cloned_count++))
+            else
+                echo "    ⚠️ Failed to clone $repo_name (repository may not exist or be inaccessible)"
+                ((failed_count++))
+            fi
         else
             echo "  $repo_name already exists, pulling updates..."
             cd "$SOURCE_DIR/$repo_name"
-            git pull
+            if git pull 2>/dev/null; then
+                echo "    ✓ Updated $repo_name"
+            else
+                echo "    ⚠️ Failed to update $repo_name"
+            fi
             cd -
+            ((cloned_count++))
         fi
     done
 
-    echo -e "${GREEN}✓ Repository cloning complete${NC}"
+    echo -e "${GREEN}✓ Repository cloning complete: $cloned_count cloned, $failed_count failed${NC}"
+    if [ $failed_count -gt 0 ]; then
+        echo -e "${YELLOW}Note: Some repositories were not available. This is normal and expected.${NC}"
+    fi
 }
 
 # Function to modify source code

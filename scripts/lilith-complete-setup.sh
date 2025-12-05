@@ -105,7 +105,8 @@ install_base_dependencies() {
 
     # AI/ML dependencies
     apt-get install -y python3 python3-pip python3-dev
-    apt-get install -y libopenblas-dev libblas-dev libatlas-base-dev
+    apt-get install -y libopenblas-dev libblas-dev
+    # libatlas-base-dev removed from Ubuntu, use alternatives
     apt-get install -y liblapack-dev liblapacke-dev
     apt-get install -y libffi-dev libssl-dev
 
@@ -141,8 +142,8 @@ copy_lilith_files() {
     cp "$SCRIPT_DIR"/*.md /opt/lilith-build/ 2>/dev/null || true
 
     # Copy web app if it exists
-    if [ -d "$SCRIPT_DIR/lilith-web-app" ]; then
-        cp -r "$SCRIPT_DIR/lilith-web-app"/* /opt/lilith-web-app/ 2>/dev/null || true
+    if [ -d "$SCRIPT_DIR/../packages/lilith-web-app" ]; then
+        cp -r "$SCRIPT_DIR/../packages/lilith-web-app"/* /opt/lilith-web-app/ 2>/dev/null || true
     fi
 
     # Make scripts executable
@@ -196,7 +197,13 @@ run_source_integration() {
     echo -e "${BLUE}🔧 Running Deepin Source Code Integration...${NC}"
 
     if [ -f "/opt/lilith-build/lilith-source-integration.sh" ]; then
-        bash /opt/lilith-build/lilith-source-integration.sh
+        # Run source integration but don't fail the entire setup if it fails
+        if bash /opt/lilith-build/lilith-source-integration.sh; then
+            echo -e "${GREEN}✅ Source integration completed successfully${NC}"
+        else
+            echo -e "${YELLOW}⚠️ Warning: Source integration failed, but setup will continue${NC}"
+            echo -e "${YELLOW}Note: Some Deepin repositories may not be available${NC}"
+        fi
     else
         echo -e "${YELLOW}⚠️ Warning: Source integration script not found${NC}"
     fi
