@@ -129,48 +129,6 @@ const AIIntegration: React.FC<AIIntegrationProps> = ({
         dailyLimit: '14,400 requests/day (free)',
         tasks: 'Fast complex reasoning, code generation',
         configured: false
-      },
-      'anthropic': {
-        name: 'Anthropic Claude',
-        dailyLimit: '200 requests/day',
-        tasks: 'Detailed analysis, documentation',
-        configured: false
-      },
-      'openai': {
-        name: 'OpenAI GPT',
-        dailyLimit: '10k+ requests',
-        tasks: 'Advanced reasoning, multimodal',
-        configured: false
-      },
-      'mistral': {
-        name: 'Mistral AI',
-        dailyLimit: '1,000 requests/day',
-        tasks: 'Efficient coding, math reasoning',
-        configured: false
-      },
-      'gemini': {
-        name: 'Google Gemini',
-        dailyLimit: '1,500 requests/day',
-        tasks: 'Multimodal, web search integration',
-        configured: false
-      },
-      'together': {
-        name: 'Together AI',
-        dailyLimit: '1,000 requests/day',
-        tasks: 'Fast inference, multiple models',
-        configured: false
-      },
-      'fireworks': {
-        name: 'Fireworks AI',
-        dailyLimit: '50,000 requests/day',
-        tasks: 'Cost-effective, reliable',
-        configured: false
-      },
-      'openrouter': {
-        name: 'OpenRouter',
-        dailyLimit: '200 requests/day',
-        tasks: 'Model marketplace access',
-        configured: false
       }
     },
     selectedTasks: ['sysadmin', 'coding']

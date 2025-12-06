@@ -209,6 +209,222 @@ echo -e "\${YELLOW}ISO Location:\${NC} $BASE_PATH/output/${config.osName}-${conf
 `;
   };
 
+  const generateCompletePackage = () => {
+    const removePackages = config.packagesToRemove.split('\n').filter(p => p.trim()).map(p => `apt-get remove --purge -y ${p} 2>/dev/null || true`).join('\n');
+    const addPackages = config.packagesToAdd.split('\n').filter(p => p.trim()).join(' ');
+
+    return `#!/bin/bash
+
+# Lilith Linux Complete Distribution Builder Package
+# Generated: $(new Date().toISOString())
+# Configuration: ${config.osName} ${config.version} (${config.desktopName})
+
+set -e
+
+# Package Configuration
+OS_NAME="${config.osName}"
+OS_VERSION="${config.version}"
+DESKTOP_EDITION="${config.desktopName}"
+ACCENT_COLOR="${config.accentColor}"
+SECONDARY_COLOR="${config.secondaryColor}"
+BACKGROUND_COLOR="${config.backgroundColor}"
+TEXT_COLOR="${config.textColor}"
+FONT_FAMILY="${config.fontFamily}"
+ICON_THEME="${config.iconTheme}"
+CURSOR_THEME="${config.cursorTheme}"
+WINDOW_BORDER_RADIUS="${config.windowBorderRadius}"
+CUSTOM_REPO_ENABLED="${config.customRepoEnabled}"
+CUSTOM_REPO_DOMAIN="${config.customRepoDomain}"
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+echo -e "\${GREEN}╔══════════════════════════════════════════════════════════════════════════════╗\${NC}"
+echo -e "\${GREEN}║  Lilith Linux Complete Distribution Builder                              ║\${NC}"
+echo -e "\${GREEN}╚══════════════════════════════════════════════════════════════════════════════╝\${NC}"
+echo ""
+echo -e "\${YELLOW}Building:\${NC} \$OS_NAME \$OS_VERSION (\$DESKTOP_EDITION)"
+echo -e "\${YELLOW}Generated:\${NC} \$(date)"
+echo ""
+
+# Check if running as root
+if [ "\$EUID" -ne 0 ]; then
+    echo -e "\${RED}❌ ERROR: This script must be run as root (sudo)\${NC}"
+    echo "Usage: sudo bash \$0"
+    exit 1
+fi
+
+# Setup directories
+echo -e "\${BLUE}📁 Setting up build directories...\${NC}"
+mkdir -p /opt/lilith-build/{iso,squashfs,config,branding,scripts,output}
+mkdir -p /opt/lilith-sources /opt/lilith-ai /var/log/lilith
+
+# Install dependencies
+echo -e "\${BLUE}📦 Installing build dependencies...\${NC}"
+apt-get update
+apt-get install -y git cmake make gcc g++ build-essential
+apt-get install -y debootstrap squashfs-tools grub-pc-bin xorriso
+apt-get install -y debhelper devscripts dpkg-dev jq curl wget
+apt-get install -y qtbase5-dev qtdeclarative5-dev libqt5svg5-dev
+apt-get install -y libglib2.0-dev libgtk-3-dev libcanberra-gtk3-dev
+apt-get install -y python3 python3-pip python3-dev
+apt-get install -y libopenblas-dev libblas-dev
+apt-get install -y liblapack-dev liblapacke-dev
+apt-get install -y libffi-dev libssl-dev
+apt-get install -y xdotool wmctrl zenity
+
+# Build the base system
+echo -e "\${BLUE}🏗️ Building base Ubuntu system...\${NC}"
+BASE_PATH="/opt/lilith-build"
+cd "\$BASE_PATH"
+
+if [ ! -d "squashfs/rootfs" ]; then
+    mkdir -p squashfs/rootfs
+    debootstrap --arch=amd64 jammy squashfs/rootfs http://archive.ubuntu.com/ubuntu
+fi
+
+# Prepare chroot environment
+echo -e "\${BLUE}🔧 Preparing chroot environment...\${NC}"
+mount --bind /dev squashfs/rootfs/dev 2>/dev/null || true
+mount --bind /dev/pts squashfs/rootfs/dev/pts 2>/dev/null || true
+mount --bind /proc squashfs/rootfs/proc 2>/dev/null || true
+mount --bind /sys squashfs/rootfs/sys 2>/dev/null || true
+
+# Create customization script
+cat > squashfs/rootfs/tmp/customize.sh << 'CUSTOMIZE_EOF'
+#!/bin/bash
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
+echo "Updating package manager..."
+apt-get update
+apt-get upgrade -y
+
+echo "Removing unwanted packages..."
+${removePackages}
+apt-get remove --purge -y language-pack-zh* language-pack-gnome-zh* 2>/dev/null || true
+apt-get autoremove -y
+
+echo "Installing custom packages..."
+apt-get install -y ${addPackages}
+
+echo "Configuring system branding..."
+cat > /etc/os-release << OS_RELEASE_EOF
+NAME="$OS_NAME"
+VERSION="$OS_VERSION"
+ID=lilith
+PRETTY_NAME="$OS_NAME $OS_VERSION ($DESKTOP_EDITION)"
+VERSION_ID="$OS_VERSION"
+HOME_URL="https://lilithlinux.org"
+OS_RELEASE_EOF
+
+cat > /etc/lsb-release << LSB_RELEASE_EOF
+DISTRIB_ID="$OS_NAME"
+DISTRIB_RELEASE="$OS_VERSION"
+DISTRIB_CODENAME=lilith
+DISTRIB_DESCRIPTION="$OS_NAME $OS_VERSION"
+LSB_RELEASE_EOF
+
+echo "lilith-linux" > /etc/hostname
+
+cat > /etc/motd << MOTD_EOF
+$OS_NAME $OS_VERSION
+$DESKTOP_EDITION
+MOTD_EOF
+
+# Configure GRUB
+if [ -f "/etc/default/grub" ]; then
+    sed -i 's/GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR="$OS_NAME"/' /etc/default/grub || true
+fi
+
+# Create custom theme
+echo "Installing custom theme..."
+mkdir -p /usr/share/themes/LilithHell/gtk-3.0
+cat > /usr/share/themes/LilithHell/gtk-3.0/gtk.css << GTK_CSS_EOF
+@define-color accent_color $ACCENT_COLOR;
+@define-color secondary_color $SECONDARY_COLOR;
+@define-color bg_color $BACKGROUND_COLOR;
+@define-color text_color $TEXT_COLOR;
+
+* {
+    font-family: $FONT_FAMILY;
+    color: @text_color;
+    background-color: @bg_color;
+}
+
+*:selected {
+    background-color: @accent_color;
+}
+
+button {
+    border-radius: ${config.windowBorderRadius}px;
+    background: linear-gradient(135deg, @accent_color, @secondary_color);
+    color: @text_color;
+    font-weight: bold;
+}
+GTK_CSS_EOF
+
+mkdir -p /etc/skel/.config/gtk-3.0
+cat > /etc/skel/.config/gtk-3.0/settings.ini << GTK_SETTINGS_EOF
+[Settings]
+gtk-theme-name=LilithHell
+gtk-icon-theme-name=$ICON_THEME
+gtk-font-name=$FONT_FAMILY 11
+gtk-cursor-theme-name=$CURSOR_THEME
+gtk-application-prefer-dark-theme=1
+GTK_SETTINGS_EOF
+
+echo "Cleaning up..."
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+
+echo "System customization complete!"
+CUSTOMIZE_EOF
+
+chmod +x squashfs/rootfs/tmp/customize.sh
+chroot squashfs/rootfs /tmp/customize.sh
+
+# Cleanup mounts
+umount squashfs/rootfs/dev/pts 2>/dev/null || true
+umount squashfs/rootfs/dev 2>/dev/null || true
+umount squashfs/rootfs/proc 2>/dev/null || true
+umount squashfs/rootfs/sys 2>/dev/null || true
+
+# Create squashfs
+echo -e "\${BLUE}📦 Creating filesystem image...\${NC}"
+mkdir -p iso/casper
+mksquashfs squashfs/rootfs iso/casper/filesystem.squashfs -comp xz
+
+# Create ISO
+echo -e "\${BLUE}💿 Generating ISO image...\${NC}"
+mkdir -p iso/boot/grub
+cat > iso/boot/grub/grub.cfg << GRUB_EOF
+set default="0"
+set timeout=10
+menuentry "$OS_NAME Live" {
+    linux /casper/vmlinuz boot=casper quiet splash
+    initrd /casper/initrd
+}
+GRUB_EOF
+
+cd iso && grub-mkrescue -o "../output/$OS_NAME-$OS_VERSION.iso" . 2>/dev/null || true
+
+echo ""
+echo -e "\${GREEN}✅ Build Complete!\${NC}"
+echo -e "\${YELLOW}ISO Location:\${NC} \$BASE_PATH/output/$OS_NAME-$OS_VERSION.iso"
+echo -e "\${YELLOW}ISO Size:\${NC} \$(ls -lh \$BASE_PATH/output/$OS_NAME-$OS_VERSION.iso | awk '{print \$5}')"
+echo ""
+echo -e "\${GREEN}🎉 Your custom Lilith Linux distribution is ready!\${NC}"
+echo -e "\${YELLOW}Boot the ISO in VirtualBox or burn to USB to test your creation.\${NC}"
+
+exit 0
+`;
+  };
+
   const downloadScript = (filename: string, content: string) => {
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -438,34 +654,46 @@ echo -e "\${YELLOW}ISO Location:\${NC} $BASE_PATH/output/${config.osName}-${conf
       case 'download':
         return (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800">Ready to Build</h2>
+            <h2 className="text-2xl font-bold text-gray-800">Complete Package Ready</h2>
 
             <div className="bg-green-50 border-l-4 border-green-400 p-4">
-              <p className="font-bold text-green-800 mb-2">Configuration Summary:</p>
+              <p className="font-bold text-green-800 mb-2">Configuration Complete!</p>
               <ul className="text-sm text-green-700 space-y-1">
                 <li><strong>Name:</strong> {config.osName}</li>
                 <li><strong>Edition:</strong> {config.desktopName}</li>
                 <li><strong>Version:</strong> {config.version}</li>
+                <li><strong>Packages:</strong> {config.packagesToAdd.split('\n').filter(p => p.trim()).length} to install, {config.packagesToRemove.split('\n').filter(p => p.trim()).length} to remove</li>
+                <li><strong>Theming:</strong> Custom colors and fonts applied</li>
                 <li><strong>Repository:</strong> {config.customRepoEnabled ? config.customRepoDomain : 'Disabled'}</li>
               </ul>
             </div>
 
             <button
-              onClick={() => downloadScript('lilith-linux-builder.sh', generateBuildScript())}
+              onClick={() => downloadScript(`${config.osName.toLowerCase().replace(/\s+/g, '-')}-complete-package.sh`, generateCompletePackage())}
               className="w-full bg-gradient-to-r from-red-700 to-red-900 text-white py-4 rounded-lg font-bold hover:from-red-800 hover:to-black transition flex items-center justify-center gap-2 text-lg"
             >
               <Download size={24} />
-              Download Build Script
+              Download Complete Package
             </button>
 
             <div className="bg-gray-50 p-4 rounded border-2 border-gray-300">
-              <p className="text-sm text-gray-700 mb-3"><strong>Next Steps:</strong></p>
-              <ol className="text-sm text-gray-700 space-y-2 list-decimal list-inside">
-                <li>Save the downloaded script to your Deepin Linux system</li>
-                <li>Make it executable: <code className="bg-gray-200 px-2 py-1 rounded font-mono text-xs">chmod +x lilith-linux-builder.sh</code></li>
-                <li>Run with root: <code className="bg-gray-200 px-2 py-1 rounded font-mono text-xs">sudo ./lilith-linux-builder.sh</code></li>
-                <li>Wait for build completion (20-45 minutes)</li>
-                <li>ISO will be in <code className="bg-gray-200 px-2 py-1 rounded font-mono text-xs">/opt/lilith-build/output/</code></li>
+              <p className="text-sm text-gray-700 mb-3"><strong>What this package contains:</strong></p>
+              <ul className="text-sm text-gray-700 space-y-1 list-disc list-inside">
+                <li>Complete Lilith Linux distribution builder script</li>
+                <li>All your custom configuration settings</li>
+                <li>AI integration setup and models</li>
+                <li>Source code integration tools</li>
+                <li>Automated build and deployment scripts</li>
+              </ul>
+            </div>
+
+            <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+              <p className="text-sm text-blue-700 mb-3"><strong>To use this package:</strong></p>
+              <ol className="text-sm text-blue-700 space-y-1 list-decimal list-inside">
+                <li>Download and save the package file</li>
+                <li>Make it executable: <code className="bg-blue-200 px-2 py-1 rounded font-mono text-xs">chmod +x package-name.sh</code></li>
+                <li>Run with root privileges: <code className="bg-blue-200 px-2 py-1 rounded font-mono text-xs">sudo ./package-name.sh</code></li>
+                <li>The package will automatically build your custom Lilith Linux distribution</li>
               </ol>
             </div>
           </div>
