@@ -70,10 +70,10 @@ const LilithApp = () => {
 # Generated: $(date)
 
 set -e
-RED='\\033[0;31m'
-GREEN='\\033[0;32m'
-YELLOW='\\033[1;33m'
-NC='\\033[0m'
+RED='\\x1b[0;31m'
+GREEN='\\x1b[0;32m'
+YELLOW='\\x1b[1;33m'
+NC='\\x1b[0m'
 
 echo -e "\${GREEN}╔════════════════════════════════════╗\${NC}"
 echo -e "\${GREEN}║  ${config.osName} Distribution Builder  ║\${NC}"
@@ -237,11 +237,11 @@ CUSTOM_REPO_ENABLED="${config.customRepoEnabled}"
 CUSTOM_REPO_DOMAIN="${config.customRepoDomain}"
 
 # Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+RED='\\x1b[0;31m'
+GREEN='\\x1b[0;32m'
+YELLOW='\\x1b[1;33m'
+BLUE='\\x1b[0;34m'
+NC='\\x1b[0m'
 
 echo -e "\${GREEN}╔══════════════════════════════════════════════════════════════════════════════╗\${NC}"
 echo -e "\${GREEN}║  Lilith Linux Complete Distribution Builder                              ║\${NC}"
