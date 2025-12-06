@@ -426,13 +426,22 @@ exit 0
   };
 
   const downloadScript = (filename: string, content: string) => {
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
+    try {
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      console.log(`Download initiated for: ${filename}`);
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert(`Download failed. Please copy the content manually.\n\n${content.substring(0, 500)}...`);
+    }
   };
 
   const renderContent = () => {
